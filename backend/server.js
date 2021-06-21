@@ -98,7 +98,7 @@ app.post("/newRoom", (req, res) => {
   if (req.user.username) {
 	Room.findOne({roomName: req.body.roomName}, async (err, doc) => {
 	  if (err) throw err;
-	  if (doc) res.send("Room Already Exists");
+	  if (doc) res.status(403).send("Room Already Exists");
 	  if (!doc) {
 		const {
 		  quantity,
@@ -115,7 +115,7 @@ app.post("/newRoom", (req, res) => {
 		  messages,
 		});
 		await newRoom.save();
-		res.send("Room Created");
+		res.send(newRoom);
 	  }
 	});
   }
@@ -163,11 +163,12 @@ io.on('connection', (socket) => {
   // socket.to(clients.get(socket.id)).emit("chat message", socket.id + " приєднався")
   // })
 
-  socket.on('chat message', (data) => {
-    const {msg, roomName} = data;
+  socket.on('chat message', ({roomName, message}) => {
 	// let getRoom = clients.get(socket.id)
 	// io.to(getRoom).emit('chat message', msg)
-	io.to(roomName).emit('chat message', msg)
+	console.log({roomName, message})
+
+	io.to(roomName).emit('chat message', {message, id: socket.id})
   })
 
   // CREATED ROOM
@@ -187,7 +188,7 @@ io.on('connection', (socket) => {
     if(roomName) {
 	  socket.join(roomName);
 	  console.log('user joined a room', roomName)
-	  io.to(roomName).emit('chat message', {text:'приєднався' + socket.id})
+	  // io.to(roomName).emit('chat message', {text:'приєднався' + socket.id})
 	}
   })
 
