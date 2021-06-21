@@ -11,6 +11,7 @@ export const LeftSideBar = styled.div`
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+	height: 100vh;
 `
 
 export const Button = styled(motion.button)`

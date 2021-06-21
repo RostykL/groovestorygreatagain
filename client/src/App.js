@@ -1,5 +1,4 @@
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   useHistory
@@ -15,7 +14,6 @@ import Home from "./pages/Home/Home";
 import axios from "axios";
 
 import NewRoomPopup from "./components/CreateNewRoom/NewRoomPopup";
-import {io} from "socket.io-client";
 
 export let socket;
 

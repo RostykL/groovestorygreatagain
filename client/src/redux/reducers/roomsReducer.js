@@ -1,17 +1,35 @@
-const initialState = {
-  rooms: [],
-  loading: true,
-  error: null
-};
+import {ADD_ROOM, START_FETCHING, FETCHED_ROOMS, FETCHED_ERROR} from "../type";
 
-export const ADD_ROOM = "ADD_ROOM";
+const initialState = {
+  list: [],
+  loading: true,
+  error: null,
+  room: {},
+};
 
 export default function roomsReducer(state = initialState, action) {
   switch (action.type) {
+	case START_FETCHING:
+	  return {
+	    ...state,
+		loading: true,
+	  }
+	case FETCHED_ROOMS:
+	  return {
+		...state,
+		list: action.payload,
+		loading: false,
+	  }
+	case FETCHED_ERROR:
+	  return {
+		...state,
+		error: action.payload.error,
+		loading: !action.payload.continue,
+	  }
 	case ADD_ROOM:
 	  return {
 	    ...state,
-		rooms: [...state.rooms, action.payload]
+		list: [...state.list, action.payload]
 	  }
 	default:
 	  return state;
