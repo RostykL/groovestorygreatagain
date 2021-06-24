@@ -1,5 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {getRooms} from "./actions/getRooms";
+import {addRoomToBd} from "./actions/addRoom";
+import {v4 as uuidv4} from "uuid";
 
 const initialState = {
   rooms: [],
@@ -13,6 +15,7 @@ export const roomSlice = createSlice({
   reducers: {
     addRoom: (state, action) => {
       state.rooms.push(action.payload)
+	  state.status = 'success';
 	}
   },
   extraReducers: {
@@ -29,6 +32,6 @@ export const roomSlice = createSlice({
   }
 })
 
-export const {} = roomSlice.actions
+export const { addRoom } = roomSlice.actions
 
 export default roomSlice.reducer
