@@ -3,8 +3,8 @@ import axios from "axios";
 import {v4 as uuidv4} from 'uuid';
 import {addMessage} from "../chatRoom";
 
-export const addMessageToBd = createAsyncThunk(
-	'chatRoom/addMessageToBd',
+export const addMessageToDb = createAsyncThunk(
+	'chatRoom/addMessageToDb',
 	async ({roomName, text}, {dispatch}) => {
 	  let newMessage = {
 		roomName: roomName,
@@ -13,13 +13,14 @@ export const addMessageToBd = createAsyncThunk(
 		  text
 		}
 	  }
+	  console.log(newMessage, 'newMessage')
 	  return axios({
 		method: "put",
 		data: newMessage,
 		url: '/add_message',
 		withCredentials: true
 	  }).then(res => {
-		dispatch(addMessage(newMessage.message))
+		// dispatch(addMessage(newMessage.message))
 		console.log(res.data)
 		return res.data
 	  });
