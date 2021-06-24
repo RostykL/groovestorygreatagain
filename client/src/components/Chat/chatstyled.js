@@ -8,7 +8,7 @@ export const ChatHeader = styled.div`
 `
 
 export const ChatWrapper = styled.div`
-    width: 100%;
+    width: calc(100% - 350px);
     padding: 25px 50px;
 	
 `

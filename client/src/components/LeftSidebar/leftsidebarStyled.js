@@ -4,7 +4,7 @@ import {motion} from "framer-motion"
 
 
 export const LeftSideBar = styled.div`
-    width: 400px;
+    width: 350px;
     background: white;
     padding: 25px 20px;
     display: flex;

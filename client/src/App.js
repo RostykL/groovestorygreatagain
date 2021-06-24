@@ -6,36 +6,17 @@ import {
 
 import {AppWrapper} from "./styled/appStyled";
 
-import Authenticate from "./pages/Authenticate/Authenticate";
-import NotFound from "./pages/NotFound/NotFound";
 
 import React, {useEffect} from "react";
 import Home from "./pages/Home/Home";
-import axios from "axios";
 
 import NewRoomPopup from "./components/CreateNewRoom/NewRoomPopup";
+import Authenticate from "./pages/Authenticate/Authenticate";
+import NotFound from "./pages/NotFound/NotFound";
+import axios from "axios";
 
-export let socket;
 
 function App() {
-  const history = useHistory()
-  useEffect(() => {
-	axios({
-	  method: "GET",
-	  withCredentials: true,
-	  url: 'http://localhost:4444/user'
-	}).then(res => {
-	  const {username} = res.data;
-	  if (username) {
-		localStorage.setItem('user', JSON.stringify({name: username, in: true}))
-	  } else {
-		localStorage.removeItem('user')
-		history.push('/authenticate')
-	  }
-	});
-  }, [])
-
-
   return (
 	  <AppWrapper>
 		{/* Pop up */}

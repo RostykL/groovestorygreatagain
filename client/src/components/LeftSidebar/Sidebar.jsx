@@ -1,32 +1,27 @@
 import {Button, LeftSideBar, RoomsList} from "./leftsidebarStyled";
-import RoomField from "../RoomField/RoomField";
-import {useEffect, useState} from "react";
-import {toggle_popup} from "../../redux/actions/POPUP/togglePopup";
 import {useDispatch, useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
-import fetchRooms from "../../redux/actions/ROOMS/roomsThunk";
 import Loader from "react-loader-spinner";
+import {memo, useEffect} from "react";
+import {NavLink} from "react-router-dom";
+import RoomField from "../RoomField/RoomField";
+import {getRooms} from "../../features/slices/rooms/actions/getRooms";
 
 
 
-export default function Sidebar() {
+function Sidebar() {
   const dispatch = useDispatch();
-  const rooms = useSelector(state => state.rooms)
-
-  const openPopup = () => {
-	dispatch(toggle_popup());
-  }
+  const roomsState = useSelector(state => state.rooms)
 
   useEffect(() => {
-	dispatch(fetchRooms())
+	dispatch(getRooms())
   }, [])
-
 
   return (
 	  <LeftSideBar>
 		<RoomsList>
-		  {rooms.loading ? <Loader type="ThreeDots" color="#00BFFF" height={30} width={30} /> : 'Rooms:'}
-		  {!rooms.loading && rooms && rooms.list.map((el) => {
+		  {roomsState.status === 'loading' ? <Loader type="ThreeDots" color="#00BFFF" height={30} width={30} /> : 'Rooms:'}
+		  {roomsState.status === 'failed' ? <h3>Oppps, something went wrong</h3> : null}
+		  {roomsState.status === 'success' && roomsState.rooms.map((el) => {
 			return (<NavLink to={el.roomName} key={el._id}>
 			  <RoomField
 				  title={el.roomName}
@@ -40,7 +35,7 @@ export default function Sidebar() {
 		</RoomsList>
 		<Button whileHover={{scale: 1.05}}
 				whileTap={{scale: 0.95}}
-				onClick={openPopup}
+				// onClick={openPopup}
 		>
 		  Add room
 		</Button>
@@ -48,3 +43,5 @@ export default function Sidebar() {
 	  </LeftSideBar>
   );
 }
+
+export default memo(Sidebar);
