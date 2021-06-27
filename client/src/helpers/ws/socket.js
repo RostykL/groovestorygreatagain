@@ -1,6 +1,5 @@
-import io from 'socket.io-client'
-const ENDPOINT = "ws://localhost:4444";
+import React from 'react'
 
-const socket = io(ENDPOINT, {transports: ['websocket']});
+const SocketContext = React.createContext(null)
 
-export { socket }
+export default SocketContext

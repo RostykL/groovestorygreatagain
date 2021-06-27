@@ -13,7 +13,6 @@ import Home from "./pages/Home/Home";
 import NewRoomPopup from "./components/CreateNewRoom/NewRoomPopup";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import NotFound from "./pages/NotFound/NotFound";
-import axios from "axios";
 
 
 function App() {

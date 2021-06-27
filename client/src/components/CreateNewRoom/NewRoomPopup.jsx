@@ -17,6 +17,7 @@ export default function NewRoomPopup() {
 		<Popup>
 		  <form onSubmit={handleSubmit(onSubmit)}>
 			<input type={'text'} placeholder={"room name"} {...register("roomName", {required: true})}/><br/>
+			<input type={'number'} placeholder={"quantity"} {...register("quantity", {required: true})}/><br/>
 			<textarea placeholder={"room description"} {...register("roomDescription", {required: true})}/><br/>
 			{room.status === 'failed adding new room' ? 'something went wrong' : null}
 			<button type="submit">create</button>
