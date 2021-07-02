@@ -12,11 +12,12 @@ const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const { uuid } = require("uuidv4");
+require("dotenv").config();
 
 const ObjectId = mongoose.Types.ObjectId;
 
 mongoose.connect(
-  "mongodb+srv://rostyk:RL9VYZTKf5wV62W2@cluster0.v7f7g.mongodb.net/GrooveStory?authSource=admin&replicaSet=atlas-8kbif6-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true",
+  process.env.MONGO_URL,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
