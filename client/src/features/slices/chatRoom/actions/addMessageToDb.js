@@ -7,7 +7,7 @@ export const addMessageToDb = createAsyncThunk(
   'chatRoom/addMessageToDb',
   async ({ roomName, text }, { dispatch }) => {
     let newMessage = {
-      roomName: roomName,
+      roomName,
       message: {
         _id: uuidv4(),
         text,
@@ -19,6 +19,7 @@ export const addMessageToDb = createAsyncThunk(
       url: '/add_message',
       withCredentials: true,
     }).then(res => {
+      console.log('added, room:', roomName);
       dispatch(addMessage(newMessage.message));
       return res.data;
     });

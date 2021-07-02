@@ -20,27 +20,25 @@ import { addMessage } from '../../features/slices/chatRoom/chatRoom';
 import SocketContext from '../../helpers/ws/socket';
 
 export default function Chat() {
-  const chatRoom = useSelector((state) => state.chatRoom);
+  const chatRoom = useSelector(state => state.chatRoom);
   const socket = useContext(SocketContext);
   const [message, setMessage] = useState('');
 
   const { roomName } = useParams();
   const dispatch = useDispatch();
-
   useEffect(() => {
-    if (roomName) {
-      socket.emit('join room', roomName);
-      dispatch(getRoom(roomName));
-    }
+    socket.emit('join', roomName);
+    dispatch(getRoom(roomName));
   }, [roomName]);
 
   useEffect(() => {
     socket.on('connect', () => {
-      socket.on('chat message', (res) => {
-        console.log(res, 'res');
-        dispatch(addMessage({ _id: res.id, text: res.message }));
+      socket.on('message', message => {
+        dispatch(addMessage(message));
+        console.log(message);
       });
     });
+
     return () => {
       socket.disconnect();
     };
@@ -48,8 +46,7 @@ export default function Chat() {
 
   const handleMessaging = () => {
     if (message) {
-      dispatch(addMessageToDb({ roomName, text: message }));
-      socket.emit('chat message', { roomName, message });
+      socket.emit('message', message);
       setMessage('');
     }
   };
@@ -77,8 +74,8 @@ export default function Chat() {
             )}
           </ChatArea>
           <ChatInput
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyUp={(e) => (e.key === 'Enter' ? handleMessaging() : null)}
+            onChange={e => setMessage(e.target.value)}
+            onKeyUp={e => (e.key === 'Enter' ? handleMessaging() : null)}
             value={message}
           />
         </ExactChat>
