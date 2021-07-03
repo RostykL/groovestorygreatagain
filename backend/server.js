@@ -85,6 +85,7 @@ app.post("/register", (req, res) => {
 // LOGOUT
 app.get("/logout", (req, res) => {
   req.logout();
+  res.json({ message: "Successfully logged out" });
 });
 
 // isLogged
