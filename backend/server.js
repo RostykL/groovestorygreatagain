@@ -54,7 +54,7 @@ require("./passportConfig")(passport);
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user) => {
     if (err) throw err;
-    if (!user) res.send("No User Exists");
+    if (!user) res.status(404).send("No User Exists");
     else {
       req.logIn(user, (err) => {
         if (err) throw err;
