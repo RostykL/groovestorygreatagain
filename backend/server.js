@@ -155,8 +155,6 @@ let clients = new Map();
 
 io.on("connection", (socket) => {
   socket.on("join", async (roomName) => {
-    console.log(roomName);
-
     try {
       let result = await Room.findOne({ roomName: roomName });
       if (!result) return;
@@ -170,7 +168,6 @@ io.on("connection", (socket) => {
 
   socket.on("message", (message) => {
     const msg = { _id: new ObjectId(), text: message };
-    console.log(socket.activeRoom);
     addMessage(socket.activeRoom, msg);
     io.to(socket.activeRoom).emit("message", msg);
   });
