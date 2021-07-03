@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getRoom } from '../../features/slices/chatRoom/actions/getRoom';
 import { motion } from 'framer-motion';
 import Loader from 'react-loader-spinner';
-import { addMessageToDb } from '../../features/slices/chatRoom/actions/addMessageToDb';
 import { addMessage } from '../../features/slices/chatRoom/chatRoom';
 import SocketContext from '../../helpers/ws/socket';
 
@@ -27,22 +26,21 @@ export default function Chat() {
   const { roomName } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
+    // socket.on('connect', () => {
+    socket.on('message', message => {
+      dispatch(addMessage(message));
+    });
+    // });
+
+    return () => {
+      socket.off('message');
+    };
+  }, []);
+
+  useEffect(() => {
     socket.emit('join', roomName);
     dispatch(getRoom(roomName));
   }, [roomName]);
-
-  useEffect(() => {
-    socket.on('connect', () => {
-      socket.on('message', message => {
-        dispatch(addMessage(message));
-        console.log(message);
-      });
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
 
   const handleMessaging = () => {
     if (message) {
