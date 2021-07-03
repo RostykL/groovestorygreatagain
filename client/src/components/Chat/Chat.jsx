@@ -26,11 +26,9 @@ export default function Chat() {
   const { roomName } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    // socket.on('connect', () => {
     socket.on('message', message => {
       dispatch(addMessage(message));
     });
-    // });
 
     return () => {
       socket.off('message');

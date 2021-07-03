@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 import { loginUser } from '../../features/slices/login/actions/loginUserAction';
+import { changeStatus } from '../../features/slices/login/login';
 
 function Login() {
   const {
@@ -27,9 +28,9 @@ function Login() {
   };
 
   useEffect(() => {
-    if (login.status === 'success' || localStorage.isAuthenticated) {
-      localStorage.setItem('isAuthenticated', true);
+    if (login.status === 'success' && localStorage.isAuthenticated) {
       history.push('/');
+      dispatch(changeStatus());
     }
   }, [login.status]);
 

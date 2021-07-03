@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const loginUser = createAsyncThunk(
-  'login/loginUser',
+export const signupUser = createAsyncThunk(
+  'signup/signupUser',
   async ({ username, password }) => {
     return axios({
       method: 'post',
@@ -10,11 +10,10 @@ export const loginUser = createAsyncThunk(
         username,
         password,
       },
-      url: '/login',
+      url: '/register',
       withCredentials: true,
     }).then(res => {
-      localStorage.setItem('isAuthenticated', true);
-
+      console.log(res);
       return res.data;
     });
   }

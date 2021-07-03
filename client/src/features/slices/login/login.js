@@ -6,9 +6,13 @@ const initialState = {
 };
 
 const login = createSlice({
-  name: 'chatRoom',
+  name: 'login',
   initialState,
-  reducers: {},
+  reducers: {
+    changeStatus(state) {
+      state.status = null;
+    },
+  },
   extraReducers: {
     [loginUser.pending]: state => {
       state.status = 'loading';
@@ -21,5 +25,7 @@ const login = createSlice({
     },
   },
 });
+
+export const { changeStatus } = login.actions;
 
 export default login.reducer;
