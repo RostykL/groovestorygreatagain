@@ -30,16 +30,21 @@ export default function Chat() {
   useEffect(() => {
     socket.on('message', message => {
       dispatch(addMessage(message));
-      scrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
+      scrollToBottom();
     });
     return () => {
       socket.off('message');
     };
   }, []);
+
   useEffect(() => {
     socket.emit('join', roomName);
     dispatch(getRoom(roomName));
   }, [roomName]);
+
+  const scrollToBottom = () => {
+    scrollToRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const handleMessaging = () => {
     if (message) {

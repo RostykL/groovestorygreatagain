@@ -28,7 +28,7 @@ function Login() {
   };
 
   useEffect(() => {
-    if (login.status === 'success' && localStorage.isAuthenticated) {
+    if (login.status === 'success' || localStorage.isAuthenticated) {
       history.push('/');
       dispatch(changeStatus());
     }
