@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
   ChatAreaWrapper,
   ChatHeader,
@@ -22,19 +22,20 @@ export default function Chat() {
   const chatRoom = useSelector(state => state.chatRoom);
   const socket = useContext(SocketContext);
   const [message, setMessage] = useState('');
+  const scrollToRef = useRef();
 
   const { roomName } = useParams();
   const dispatch = useDispatch();
+
   useEffect(() => {
     socket.on('message', message => {
       dispatch(addMessage(message));
+      scrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
     });
-
     return () => {
       socket.off('message');
     };
   }, []);
-
   useEffect(() => {
     socket.emit('join', roomName);
     dispatch(getRoom(roomName));
@@ -68,6 +69,7 @@ export default function Chat() {
                   })}
               </>
             )}
+            <div ref={scrollToRef} />
           </ChatArea>
           <ChatInput
             onChange={e => setMessage(e.target.value)}
